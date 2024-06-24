@@ -1,0 +1,90 @@
+\documentclass[]{book}
+\usepackage[]{amsmath}
+
+\title{Draft ECMI}
+
+\begin{document}
+    
+    We have a graph G, with incidence matrix E, $n$ nodes, $m$ edges. (TO:DO Put graph in)
+
+    \section{Derivation}
+    
+    \begin{equation*}
+        \nabla = E^T = \begin{pmatrix}
+            -1 & 1 & 0 & 0 & 0\\
+            -1 & 0 & 1 & 0 & 0\\
+            0 & 1 & -1 & 0 & 0\\
+            0 & 0 & -1 & 1 & 0\\
+            1 & 0 & 0 & 0 & -1\\
+        \end{pmatrix}
+    \end{equation*}
+    We have $n+m$ equations that connect heights $H$, fluxes $Q$ and nodes $q$:
+    \begin{equation*}
+        \nabla^TQ=q
+    \end{equation*}
+    \begin{equation*}
+        \nabla H=-aQ|Q| = -a\begin{pmatrix}
+            Q_1|Q_1|\\
+            Q_2|Q_2|\\
+            Q_3|Q_3|\\
+            Q_4|Q_4|\\
+            Q_5|Q_5|
+        \end{pmatrix}
+    \end{equation*}
+    Unknowns: $2n+m$
+    \begin{equation*}
+        \begin{matrix}
+            Q & m\\
+            H & n\\
+            q & n
+        \end{matrix}
+    \end{equation*}
+    Suppose that some $q_0$ and $H_0$ are known. We can separate them from the initial equations by splitting $\nabla$. Let $\nabla_0$ denote the $m\times n$ such that:\\
+    \begin{equation*}
+        \begin{aligned}
+        \left\{\nabla-\nabla_0\right\}H + aQ|Q| &= -\nabla_0H_0\\
+        \nabla^T-q&=q_0
+        \end{aligned}
+    \end{equation*}
+    \newpage
+    (TO:DO Put derivation in here)\\
+    The differential equations from the continuum method are
+    \begin{equation*}
+    \begin{aligned}
+        \frac{d}{dt}\left(Q_5-q_5\right) &= -\left( Q_5^* - q_5^*\right)\\
+        \frac{d}{dt}\left(Q_5 - Q_1 - Q_2 - q_1\right) &= -\left(Q_5^* - Q_1^* - Q_2^* -q_1^*\right)\\
+        \cdots\\
+        \frac{d}{dt}\left(Q_4-q_4\right) &= -\left( Q_4^* - q_4^*\right)\\
+        \frac{d}{dt}\left(H_2 - H_1 +aQ_1|Q_1|\right) &= -\left( H_2^* - H_1^* +aQ_1^*|Q_1^*|\right)\\
+        \cdots\\
+        \frac{d}{dt}\left(H_1 - H_5 +aQ_5|Q_5|\right) &= -\left( H_1^* - H_5^* +aQ_5^*|Q_5^*|\right)\\
+    \end{aligned}
+    \end{equation*}
+    The discrete laplacian is
+    \begin{equation*}
+        \Lambda = \nabla . \nabla^T
+    \end{equation*}
+    In operator form our equations are
+    \begin{equation*}
+        \begin{aligned}
+            \nabla^TQ_t-q_t &= -(\nabla^TQ - q^*)\\
+            \nabla H_t + a\left[Q|Q|\right]_t &= - (\nabla H^* + aQ^*|Q^*|)
+        \end{aligned}
+    \end{equation*}
+    (TO:DO) Newton method for this\\
+    Algorithm is:
+    \begin{enumerate}
+        \item Find initial guess $x^*$, $f(x^*)$\\
+        \item Get $x_t$ from $f'(x)x_t=-f(x^*)$\\
+        \item $x^{**} = x^* +x_t$\\
+        \item Go to 2 until stop criterion
+    \end{enumerate}
+
+    \newpage
+
+    \section{q doesn't change with time}
+    As a first approximation, put $q_t=0$.\\
+    We choose $q_{init} = (0, 2, -1, -0.5, -0.5)^T$ and compute $\nabla^TQ=q$ and $\nabla H = -aQ|Q|$\\
+    It is apparent that with least squares we get the optimal solution for these $q$.
+
+\end{document}
